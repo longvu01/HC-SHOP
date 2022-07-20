@@ -1,36 +1,43 @@
-import Head from 'next/head';
+import Head from 'next/head'
 
 export interface SeoData {
-  title: string;
-  description: string;
-  url: string;
-  thumbnailUrl: string;
+	title?: string
+	description?: string
+	url?: string
+	thumbnailUrl?: string
 }
 
 export interface SeoProps {
-  data: SeoData;
+	data?: SeoData
 }
 
-export function Seo({ data }: SeoProps) {
-  const { title, description, url, thumbnailUrl } = data;
+const initData = {
+	title: 'HC-SHOP',
+	description: 'Cloned from hacom.vn',
+	url: '',
+	thumbnailUrl: '',
+}
 
-  return (
-    <Head>
-      <title>HC-SHOP</title>
-      <meta name='title' content={title} />
-      <meta name='description' content={description} />
+export function Seo({ data = initData }: SeoProps) {
+	const { title, description, url, thumbnailUrl } = data
 
-      <meta property='og:type' content='website' />
-      <meta property='og:url' content={url} />
-      <meta property='og:title' content={title} />
-      <meta property='og:description' content={description} />
-      <meta property='og:image' content={thumbnailUrl} />
+	return (
+		<Head>
+			<title>HC-SHOP</title>
+			<meta name="title" content={title} />
+			<meta name="description" content={description} />
 
-      <meta property='twitter:card' content='summary_large_image' />
-      <meta property='twitter:url' content={url} />
-      <meta property='twitter:title' content={title} />
-      <meta property='twitter:description' content={description} />
-      <meta property='twitter:image' content={thumbnailUrl}></meta>
-    </Head>
-  );
+			<meta property="og:type" content="website" />
+			<meta property="og:url" content={url} />
+			<meta property="og:title" content={title} />
+			<meta property="og:description" content={description} />
+			<meta property="og:image" content={thumbnailUrl} />
+
+			<meta property="twitter:card" content="summary_large_image" />
+			<meta property="twitter:url" content={url} />
+			<meta property="twitter:title" content={title} />
+			<meta property="twitter:description" content={description} />
+			<meta property="twitter:image" content={thumbnailUrl}></meta>
+		</Head>
+	)
 }

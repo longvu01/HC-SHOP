@@ -1,7 +1,17 @@
+import { useAppDispatch } from '@/app/hooks'
+import { Loading, Seo } from '@/components/Common'
+import AddQuantityForm from '@/components/Common/AddQuantityForm'
+import PageBreadCrumbs from '@/components/Common/PageBreadCrumbs'
+import ProductSlider from '@/components/product/ProductSlider'
+import { cartActions } from '@/features/cart/cartSlice'
+import { MainLayout } from '@/layouts'
+import dbConnect from '@/middleware/mongodb'
 import { Product } from '@/models'
 import ProductModel from '@/modelsMongoDB/productModel'
+import { formatCurrency } from '@/utils'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import { Box, Button, Container, Divider, Paper, Rating, Stack, Typography } from '@mui/material'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
-import dbConnect from '@/middleware/mongodb'
 import { useRouter } from 'next/router'
 
 export interface ProductDetailProps {
@@ -9,18 +19,127 @@ export interface ProductDetailProps {
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-	console.log(product)
-
 	const router = useRouter()
+	const dispatch = useAppDispatch()
 
-	if (router.isFallback) {
-		return <div style={{ fontSize: '2rem', textAlign: 'center' }}>Loading...</div>
-	}
-
+	if (router.isFallback) return <Loading />
 	if (!product) return null
 
-	return <div>{product.title}</div>
+	const breadCrumbsData = [
+		{
+			title: 'Trang chủ',
+			href: '/',
+		},
+		{
+			title: product?.categoryName || '',
+			href: `/${product?.categoryId}` || '',
+		},
+		{
+			title: product.title,
+			href: `/product/${product._id}`,
+		},
+	]
+
+	// Handlers
+	const handleAddToCartSubmit = (quantity: number) => {
+		const cartItem = {
+			...product,
+			quantity,
+		}
+
+		dispatch(cartActions.addToCart(cartItem))
+	}
+
+	return (
+		<Box pb={{ xs: 7, md: 9 }}>
+			<Seo
+				data={{
+					title: product.title,
+					description: product.description,
+					url: '',
+					thumbnailUrl: '',
+				}}
+			/>
+
+			<Container maxWidth="xl">
+				<PageBreadCrumbs data={breadCrumbsData} />
+
+				<Paper sx={{ p: 2 }}>
+					<Stack direction="row" spacing={1} minHeight={500}>
+						<Box width={400}>
+							<ProductSlider images={product.images} />
+						</Box>
+
+						{/* Right */}
+						<Box>
+							<Stack direction="row" alignContent="center">
+								<Typography variant="caption">Mã SP: {product.code}</Typography>
+								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+								<Stack direction="row" alignContent="center">
+									<Typography variant="caption">Đánh giá: </Typography>
+									<Rating size="small" name="rating value" value={0} readOnly />
+									<Typography variant="caption">{0}</Typography>
+								</Stack>
+								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+								<Typography variant="caption">Bình luận: {0}</Typography>
+								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+								<Typography variant="caption">Lượt xem: {0}</Typography>
+							</Stack>
+
+							{/* Info */}
+							<Typography variant="subtitle1" component="h3">
+								Thông số sản phẩm
+							</Typography>
+							<Box component="ul" sx={{ listStyleType: 'circle', pl: 2 }}>
+								{product.info.map((item, index) => (
+									<Typography variant="caption" component="li" key={index}>
+										{item}
+									</Typography>
+								))}
+							</Box>
+
+							{/* Price box */}
+							<Stack
+								direction="row"
+								alignItems="flex-end"
+								spacing={1}
+								sx={{ border: '1px dashed #ccc' }}
+							>
+								<Typography variant="h4" sx={{ color: '#bf081f', fontWeight: 'bold' }}>
+									{/* {formatCurrency(product?.salePrice)} */}
+									{formatCurrency(1490000)}
+								</Typography>
+								<Typography variant="body2" sx={{ color: '#444', textDecoration: 'line-through' }}>
+									{/* {formatCurrency(product.price)} */}
+									{formatCurrency(1790000)}
+								</Typography>
+								<Typography variant="body2" sx={{ color: '#bf081f' }}>
+									{/* {formatCurrency(product.price - product?.salePrice)} */}
+									Tiết kiệm {formatCurrency(300000)}
+								</Typography>
+							</Stack>
+
+							{/* Add to cart */}
+							<Stack direction="row">
+								<AddQuantityForm onSubmit={handleAddToCartSubmit}>
+									<Button type="submit" sx={{ mt: '10px !important' }}>
+										<AddShoppingCartIcon />
+										Thêm vào giỏ hàng
+									</Button>
+								</AddQuantityForm>
+							</Stack>
+						</Box>
+					</Stack>
+				</Paper>
+			</Container>
+		</Box>
+	)
 }
+
+ProductDetail.Layout = MainLayout
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	await dbConnect()

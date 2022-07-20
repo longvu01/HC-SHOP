@@ -1,12 +1,13 @@
 import { wrapper } from '@/app/store'
-import { ProductListSlider, Seo } from '@/components/Common'
+import { Seo } from '@/components/Common'
+import { ProductListSlider } from '@/components/product'
 import { MainLayout } from '@/layouts'
 import dbConnect from '@/middleware/mongodb'
 import { Product } from '@/models'
 import CategoryModel from '@/modelsMongoDB/categoryModel'
 import ProductModel from '@/modelsMongoDB/productModel'
 import { Box, Container } from '@mui/material'
-import { GetStaticProps, GetStaticPropsContext } from 'next'
+import { GetStaticProps } from 'next'
 
 export interface HomePageProps {
 	arrayProductList?: { products: Product[]; categoryTitle: string }[]
@@ -17,14 +18,7 @@ const HomePage = ({ arrayProductList = [] }: HomePageProps) => {
 	console.log(arrayProductList)
 	return (
 		<Box component="section" pb={{ xs: 7, md: 9 }}>
-			<Seo
-				data={{
-					title: 'HC-SHOP',
-					description: 'Cloned from hacom.vn',
-					url: '',
-					thumbnailUrl: '',
-				}}
-			/>
+			<Seo />
 
 			<Container maxWidth="xl">
 				{arrayProductList.map((productList) => (
@@ -52,7 +46,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = wrapper.getStaticPr
 			const categoryId = category._id.toString()
 			categoryListTitle.push(category.title)
 
-			return ProductModel.find({ category: categoryId })
+			return ProductModel.find({ category: categoryId }).limit(10)
 		})
 
 		const productListPerCate = await Promise.all(productListQuery)

@@ -7,16 +7,29 @@ import CallIcon from '@mui/icons-material/Call'
 import styles from './ProductItem.module.scss'
 import { formatCurrency } from '@/utils'
 import DoneIcon from '@mui/icons-material/Done'
+import { useAppDispatch } from '@/app/hooks'
+import { cartActions } from '@/features/cart/cartSlice'
 
 export interface ProductItemProps {
 	product: Product
 }
 
 export default function ProductItem({ product }: ProductItemProps) {
+	const dispatch = useAppDispatch()
+
+	const handleAddToCart = () => {
+		const cartItem = {
+			...product,
+			quantity: 1,
+		}
+
+		dispatch(cartActions.addToCart(cartItem))
+	}
+
 	return (
 		<Box p={1}>
 			<Link href={`product/${product._id}`} passHref>
-				<Box>
+				<Box sx={{ cursor: 'pointer' }}>
 					<Image
 						src={product.images?.[0].url || ''}
 						layout="responsive"
@@ -55,7 +68,7 @@ export default function ProductItem({ product }: ProductItemProps) {
 							<DoneIcon sx={{ mr: 0.5, fontSize: 20 }} />
 							<Typography sx={{ fontSize: 14 }}>Còn hàng</Typography>
 						</Stack>
-						<Box sx={{ cursor: 'pointer' }}>
+						<Box sx={{ cursor: 'pointer' }} onClick={handleAddToCart}>
 							<AddShoppingCartIcon />
 						</Box>
 					</>

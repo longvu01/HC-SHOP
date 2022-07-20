@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { Login, Register } from '@/features/auth'
 import { authActions, selectCurrentUser, selectIsLoggedIn } from '@/features/auth/authSlice'
+import { selectCartItemCount } from '@/features/cart/cartSlice'
 import { removeCookie, removeFirstLogin } from '@/utils'
 import { Close } from '@mui/icons-material'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -33,12 +34,11 @@ const MODE = {
 }
 
 export default function Actions() {
-	const dispatch = useAppDispatch()
-
+	const cartItemCount = useAppSelector(selectCartItemCount)
 	const currentUser = useAppSelector(selectCurrentUser)
 	const isLoggedIn = useAppSelector(selectIsLoggedIn)
-	// const currentUser = {}
-	// const isLoggedIn = true
+
+	const dispatch = useAppDispatch()
 
 	const [mode, setMode] = useState(MODE.REGISTER)
 	const [openDialog, setOpenDialog] = useState(false)
@@ -185,7 +185,7 @@ export default function Actions() {
 				</div>
 
 				<Stack direction="row" alignItems="center" spacing={1} py={1}>
-					<Badge badgeContent={1} color="warning">
+					<Badge badgeContent={cartItemCount} color="warning">
 						<ShoppingCartIcon fontSize="large" />
 					</Badge>
 					<Box>

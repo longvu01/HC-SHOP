@@ -1,0 +1,14 @@
+// Product Slider
+.dotList {
+	margin-top: 10px;
+	text-align: left;
+
+	& > li {
+		width: 90px;
+		height: 90px;
+	}
+
+	& > li.slick-active {
+		border: 1px solid red;
+	}
+}
