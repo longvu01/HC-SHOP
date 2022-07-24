@@ -9,14 +9,14 @@ const authApi = {
 		})
 	},
 
-	login(params: Partial<AuthPayload>): Promise<AuthResponse> {
+	login(params: Partial<AuthPayload>): Promise<AuthResponse & { refreshToken: string }> {
 		const url = '/auth/login'
 		return axiosClient.post(url, {
 			params,
 		})
 	},
 
-	getInfo(): Promise<Partial<AuthResponse>> {
+	getInfo(): Promise<AuthResponse> {
 		const url = '/auth/accessToken'
 		return axiosClient.get(url)
 	},

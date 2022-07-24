@@ -1,11 +1,14 @@
 // Product Slider
 .dotList {
+	--padding-y: 2px;
+	--container-width: 400px;
 	margin-top: 10px;
 	text-align: left;
 
 	& > li {
-		width: 90px;
-		height: 90px;
+		width: calc((var(--container-width) - var(--padding-y) * 10) / 5);
+		height: calc((var(--container-width) - var(--padding-y) * 10) / 5);
+		margin: 0 var(--padding-y);
 	}
 
 	& > li.slick-active {

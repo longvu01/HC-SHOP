@@ -17,12 +17,7 @@ export default function AddQuantityForm({
 	children,
 }: AddQuantityFormProps) {
 	const schema = yup.object().shape({
-		quantity: yup
-			.number()
-			.min(1, 'Số lượng tối thiểu là 1')
-			// .max(20, 'Số lượng tối đa là 20')
-			.required('Xin mời chọn số lượng')
-			.typeError('Nhập số hợp lệ'),
+		quantity: yup.number().required('Xin mời chọn số lượng').typeError('Nhập số hợp lệ'),
 	})
 
 	const { handleSubmit, setValue, control, reset } = useForm({

@@ -3,7 +3,7 @@ import { Paper, Typography } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
-import ProductItem from '../Common/ProductItem'
+import { ProductItem } from './ProductItem'
 
 export interface ProductListSliderProps {
 	productList: Product[]
@@ -17,6 +17,41 @@ export function ProductListSlider({ productList, categoryTitle }: ProductListSli
 		speed: 500,
 		slidesToShow: 5,
 		slidesToScroll: 3,
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 4,
+					slidesToScroll: 4,
+					infinite: true,
+					dots: true,
+				},
+			},
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true,
+					dots: true,
+				},
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					initialSlide: 2,
+				},
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+				},
+			},
+		],
 	}
 
 	return (

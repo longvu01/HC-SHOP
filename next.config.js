@@ -13,5 +13,7 @@ module.exports = {
 		ACCESS_TOKEN_KEY: '&rk`Dw_Mf&=[2er{K%]f$}sQTaXxD%tZ?$&uEnw!J;~+PDmG8~',
 		REFRESH_TOKEN_KEY:
 			'5Yx2-YrpP;,Lj%/%FU.2f9}hvPVp*29SpYF&MN)L=nyJ$(u#Je]C5d)uYkGZFWMkChN#s;$yqWh5sA/#',
+		PAYPAL_CLIENT_ID:
+			'ARKFB97xkJ5x5ZM1Dmx-vGrs1Dj6zBS3Z_6Pjuicssp7Ih5EqxDEFULnIt73gI9VNiLD2Z_mBB2yHV2K',
 	},
 }

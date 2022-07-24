@@ -35,10 +35,17 @@ export function QuantityField({
 		<Stack alignItems="center">
 			<Stack direction="row" alignItems="center">
 				<IconButton
-					sx={{ border: '1px solid #ccc !important', borderRadius: '4px' }}
+					sx={{
+						border: '1px solid #ccc !important',
+						borderRadius: '4px',
+					}}
 					onClick={() => {
-						setValue(name, +value - 1, { shouldValidate: true })
-						onSubmit?.({ quantity: +value - 1 })
+						const newValue = +value - 1
+
+						if (newValue >= 1) {
+							setValue(name, newValue, { shouldValidate: true })
+						}
+						onSubmit?.({ quantity: newValue })
 					}}
 				>
 					<RemoveIcon />
@@ -50,7 +57,7 @@ export function QuantityField({
 					variant="outlined"
 					size="small"
 					type="number"
-					sx={{ my: 1 }}
+					sx={{ my: 1, minWidth: '55px' }}
 					//
 					value={value}
 					onChange={handleChange}
@@ -66,7 +73,10 @@ export function QuantityField({
 				/>
 
 				<IconButton
-					sx={{ border: '1px solid #ccc !important', borderRadius: '4px' }}
+					sx={{
+						border: '1px solid #ccc !important',
+						borderRadius: '4px',
+					}}
 					onClick={() => {
 						setValue(name, +value + 1, { shouldValidate: true })
 						onSubmit?.({ quantity: +value + 1 })

@@ -1,7 +1,7 @@
-import { Product } from '@/models/product'
+import { CartItemSlice } from '@/features/cart/cartSlice'
 import { model, models, Schema } from 'mongoose'
 
-export const ProductSchema = new Schema<Product>(
+export const CartSchema = new Schema<CartItemSlice>(
 	{
 		title: {
 			type: String,
@@ -51,10 +51,14 @@ export const ProductSchema = new Schema<Product>(
 			type: Array,
 			required: true,
 		},
+		quantity: {
+			type: Number,
+			required: true,
+		},
 	},
 	{ timestamps: true }
 )
 
-let ProductModel = models.products || model<Product>('products', ProductSchema)
+let CartModel = models.carts || model<CartItemSlice>('carts', CartSchema)
 
-export default ProductModel
+export default CartModel

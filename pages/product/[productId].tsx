@@ -1,8 +1,9 @@
-import { useAppDispatch } from '@/app/hooks'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { Loading, Seo } from '@/components/Common'
 import AddQuantityForm from '@/components/Common/AddQuantityForm'
 import PageBreadCrumbs from '@/components/Common/PageBreadCrumbs'
 import ProductSlider from '@/components/product/ProductSlider'
+import { authActions, selectIsLoggedIn } from '@/features/auth/authSlice'
 import { cartActions } from '@/features/cart/cartSlice'
 import { MainLayout } from '@/layouts'
 import dbConnect from '@/middleware/mongodb'
@@ -21,6 +22,8 @@ export interface ProductDetailProps {
 export default function ProductDetail({ product }: ProductDetailProps) {
 	const router = useRouter()
 	const dispatch = useAppDispatch()
+
+	const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
 	if (router.isFallback) return <Loading />
 	if (!product) return null
@@ -47,7 +50,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 			quantity,
 		}
 
+		if (!isLoggedIn) {
+			return dispatch(authActions.setRequireLogin())
+		}
+
 		dispatch(cartActions.addToCart(cartItem))
+		dispatch(cartActions.setShowMiniCart())
 	}
 
 	return (
@@ -76,17 +84,23 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 								<Typography variant="caption">Mã SP: {product.code}</Typography>
 								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
+								{/* TODO: replace when update db */}
 								<Stack direction="row" alignContent="center">
 									<Typography variant="caption">Đánh giá: </Typography>
-									<Rating size="small" name="rating value" value={0} readOnly />
-									<Typography variant="caption">{0}</Typography>
+									<Rating
+										size="small"
+										name="rating value"
+										value={product.ratingValue || 0}
+										readOnly
+									/>
+									<Typography variant="caption">{product.ratingCount || 0}</Typography>
 								</Stack>
 								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
-								<Typography variant="caption">Bình luận: {0}</Typography>
+								<Typography variant="caption">Bình luận: {product.commentCount || 0}</Typography>
 								<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
-								<Typography variant="caption">Lượt xem: {0}</Typography>
+								<Typography variant="caption">Lượt xem: {product.viewCount || 0}</Typography>
 							</Stack>
 
 							{/* Info */}
@@ -102,6 +116,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 							</Box>
 
 							{/* Price box */}
+							{/* TODO: replace when update db */}
 							<Stack
 								direction="row"
 								alignItems="flex-end"

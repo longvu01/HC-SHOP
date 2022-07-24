@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
 import styles from './Product.module.scss'
 
 export interface ProductSliderProps {
@@ -40,7 +40,7 @@ export default function ProductSlider({ images }: ProductSliderProps) {
 		nextArrow: <NextArrow />,
 		prevArrow: <PrevArrow />,
 		appendDots: (dots: any) => (
-			<div style={{ bottom: -100, backgroundColor: '#fff', textAlign: 'left' }}>
+			<div style={{ bottom: -95, backgroundColor: '#fff', textAlign: 'left' }}>
 				<ul className={styles.dotList}> {dots} </ul>
 			</div>
 		),
@@ -64,9 +64,9 @@ export default function ProductSlider({ images }: ProductSliderProps) {
 			{images?.map((img, index) => (
 				<Image
 					key={index}
-					src={images?.[index].url || ''}
+					src={img.url || ''}
 					layout="responsive"
-					alt={images?.[index].url}
+					alt={img.url}
 					width="100%"
 					height="100%"
 				/>

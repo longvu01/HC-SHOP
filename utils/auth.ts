@@ -1,6 +1,10 @@
-export const removeFirstLogin = () => {
-  let localStorageStatus = JSON.parse(localStorage.getItem('status') || '{}');
-  delete localStorageStatus.firstLogin;
+export const setFirstLogin = () => {
+	localStorage.setItem('status', JSON.stringify({ firstLogin: true }))
+}
 
-  localStorage.setItem('status', JSON.stringify(localStorageStatus));
-};
+export const removeFirstLogin = () => {
+	let localStorageStatus = JSON.parse(localStorage.getItem('status') || '{}')
+	delete localStorageStatus.firstLogin
+
+	localStorage.setItem('status', JSON.stringify(localStorageStatus))
+}

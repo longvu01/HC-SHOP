@@ -2,14 +2,14 @@ import { RootState } from '@/app/store'
 import { Product } from '@/models'
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface CartItem extends Product {
+export interface CartItemSlice extends Product {
 	quantity: number
-	isActive?: boolean
+	isActive: boolean
 }
 
 export interface CartState {
 	isShowMiniCart: boolean
-	cartItems: CartItem[]
+	cartItems: CartItemSlice[]
 }
 
 const initialState: CartState = {
@@ -21,36 +21,16 @@ const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		addToCart(state: CartState, action: PayloadAction<CartItem>) {
-			const newItem = action.payload
-
-			// Check if item exists
-			const itemIndex = state.cartItems.findIndex((item) => item._id === newItem._id)
-
-			if (itemIndex >= 0) {
-				state.cartItems[itemIndex].quantity += action.payload.quantity
-			} else {
-				newItem.isActive = true
-				state.cartItems.unshift(newItem)
-			}
+		setCartItems(state: CartState, action: PayloadAction<CartItemSlice[]>) {
+			state.cartItems = action.payload
 		},
 
-		removeFromCart(state: CartState, action: PayloadAction<{ idToRemove: string }>) {
-			const { idToRemove } = action.payload
-			// Check if item exists
-			const itemIndex = state.cartItems.findIndex((item) => item._id === idToRemove)
-
-			if (itemIndex >= 0) {
-				state.cartItems.filter((cartItem) => cartItem._id !== idToRemove)
-			}
+		setShowMiniCart(state: CartState) {
+			state.isShowMiniCart = true
 		},
 
-		setQuantity(state: CartState, action: PayloadAction<{ _id: string; quantity: number }>) {
-			const { _id, quantity } = action.payload
-			// Check if item exists
-			const itemIndex = state.cartItems.findIndex((item) => item._id === _id)
-			console.log(state.cartItems[itemIndex].quantity)
-			if (itemIndex >= 0) state.cartItems[itemIndex].quantity = quantity
+		setHideMiniCart(state: CartState) {
+			state.isShowMiniCart = false
 		},
 
 		toggleActive(state: CartState, action: PayloadAction<{ cartItemId: string }>) {
@@ -73,6 +53,52 @@ const cartSlice = createSlice({
 				state.cartItems.forEach((cartItem) => (cartItem.isActive = false))
 			}
 		},
+
+		addToCart(state: CartState, action: PayloadAction<CartItemSlice>) {
+			const newItem = action.payload
+
+			// Check if item exists
+			const itemIndex = state.cartItems.findIndex((item) => item._id === newItem._id)
+
+			if (itemIndex >= 0) {
+				state.cartItems[itemIndex].quantity += action.payload.quantity
+			} else {
+				newItem.isActive = true
+				state.cartItems.unshift(newItem)
+			}
+		},
+
+		setQuantity(state: CartState, action: PayloadAction<{ _id: string; quantity: number }>) {
+			const { _id, quantity } = action.payload
+
+			// Check if item exists
+			const itemIndex = state.cartItems.findIndex((item) => item._id === _id)
+
+			if (itemIndex >= 0) state.cartItems[itemIndex].quantity = quantity
+		},
+
+		removeFromCart(state: CartState, action: PayloadAction<string>) {
+			const idToRemove = action.payload
+
+			// Check if item exists
+			const itemIndex = state.cartItems.findIndex((item) => item._id === idToRemove)
+
+			if (itemIndex >= 0) {
+				state.cartItems = state.cartItems.filter((cartItem) => cartItem._id !== idToRemove)
+			}
+		},
+
+		removeCartItemsActive(state: CartState) {
+			state.cartItems = state.cartItems.filter((cartItem) => !cartItem.isActive)
+		},
+
+		purchaseCart(state: CartState) {
+			state.cartItems = state.cartItems.filter((cartItem) => !cartItem.isActive)
+		},
+
+		resetCart(state: CartState) {
+			state.cartItems = []
+		},
 	},
 })
 
@@ -82,6 +108,13 @@ export const cartActions = cartSlice.actions
 // Selectors
 export const selectCartItems = (state: RootState) => state.cart.cartItems
 
+export const selectIsShowMiniCart = (state: RootState) => state.cart.isShowMiniCart
+
+// Total quantity of cart
+export const selectCartItemTotalQuantity = createSelector(selectCartItems, (cartItems) =>
+	cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0)
+)
+// Count of product
 export const selectCartItemCount = createSelector(selectCartItems, (cartItems) => cartItems.length)
 
 export const selectCartItemActive = createSelector(selectCartItems, (cartItems) =>

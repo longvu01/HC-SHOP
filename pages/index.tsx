@@ -3,7 +3,7 @@ import { Seo } from '@/components/Common'
 import { ProductListSlider } from '@/components/product'
 import { MainLayout } from '@/layouts'
 import dbConnect from '@/middleware/mongodb'
-import { Product } from '@/models'
+import { Category, NextPageWithLayout, Product } from '@/models'
 import CategoryModel from '@/modelsMongoDB/categoryModel'
 import ProductModel from '@/modelsMongoDB/productModel'
 import { Box, Container } from '@mui/material'
@@ -13,9 +13,7 @@ export interface HomePageProps {
 	arrayProductList?: { products: Product[]; categoryTitle: string }[]
 }
 
-// const HomePage: NextPageWithLayout = ({ arrayProductList }: HomePageProps) => {
-const HomePage = ({ arrayProductList = [] }: HomePageProps) => {
-	console.log(arrayProductList)
+const HomePage: NextPageWithLayout = ({ arrayProductList = [] }: HomePageProps) => {
 	return (
 		<Box component="section" pb={{ xs: 7, md: 9 }}>
 			<Seo />
@@ -42,7 +40,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = wrapper.getStaticPr
 		const categories = await CategoryModel.find({})
 		const categoryListTitle: string[] = []
 
-		const productListQuery = categories.map((category: any) => {
+		const productListQuery = categories.map((category: Category) => {
 			const categoryId = category._id.toString()
 			categoryListTitle.push(category.title)
 
@@ -56,6 +54,8 @@ export const getStaticProps: GetStaticProps<HomePageProps> = wrapper.getStaticPr
 			products: productListPerCate[index].map((product: any) => {
 				return {
 					...product._doc,
+					// use null to omit unneeded updatedAt
+					updatedAt: null,
 					_id: product._id.toString(),
 				}
 			}),

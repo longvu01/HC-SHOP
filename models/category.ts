@@ -1,15 +1,11 @@
-import { Product } from './product';
-
 export interface Category {
-  title: string;
-  products: Product[];
+	_id: any
+	title: string
 }
 
-// export interface ProductPayload {}
-
 export interface CategoryResponse {
-  status?: 'success' | 'failed';
-  message?: string;
+	status?: 'success' | 'failed'
+	message?: string
 
-  categoryList: Category[];
+	categoryList: Category[]
 }

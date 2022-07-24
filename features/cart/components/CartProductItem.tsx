@@ -20,13 +20,22 @@ import { CartQuantityForm } from './CartQuantityForm'
 
 export interface CartProductItemProps {
 	cartItem: CartItem
-	onOpenRemoveDialog: (cartItemId: number) => void
+	onOpenRemoveDialog: () => void
+	setIdToRemove: (productId: string) => void
 }
 
-export function CartProductItem({ cartItem, onOpenRemoveDialog }: CartProductItemProps) {
+export function CartProductItem({
+	cartItem,
+	onOpenRemoveDialog,
+	setIdToRemove,
+}: CartProductItemProps) {
 	const dispatch = useAppDispatch()
 
 	const handleQuantitySubmit = (quantity: number) => {
+		if (quantity < 1) {
+			return handleButtonDeleteClick()
+		}
+
 		const itemValue = {
 			_id: cartItem._id,
 			quantity,
@@ -39,9 +48,9 @@ export function CartProductItem({ cartItem, onOpenRemoveDialog }: CartProductIte
 		dispatch(cartActions.toggleActive({ cartItemId }))
 	}
 
-	const handleDeleteItem = () => {
-		onOpenRemoveDialog(cartItem._id)
-		// dispatch(cartActions.removeFromCart({ idToRemove: cartItem._id }))
+	const handleButtonDeleteClick = () => {
+		setIdToRemove(cartItem._id)
+		onOpenRemoveDialog()
 	}
 
 	return (
@@ -57,7 +66,7 @@ export function CartProductItem({ cartItem, onOpenRemoveDialog }: CartProductIte
 				sx={{
 					display: 'grid',
 					gridGap: '10px',
-					gridTemplateColumns: '2fr repeat(3, 1fr) 0.2fr',
+					gridTemplateColumns: '1.8fr repeat(3, 1fr) 0.1fr',
 					alignItems: 'center',
 				}}
 			>
@@ -109,7 +118,7 @@ export function CartProductItem({ cartItem, onOpenRemoveDialog }: CartProductIte
 					{formatCurrency(cartItem.salePrice || cartItem.price * cartItem.quantity)}
 				</Typography>
 
-				<Button onClick={handleDeleteItem}>
+				<Button onClick={handleButtonDeleteClick}>
 					<DeleteIcon />
 				</Button>
 			</Box>

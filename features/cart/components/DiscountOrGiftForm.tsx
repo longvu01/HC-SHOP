@@ -7,13 +7,8 @@ import * as yup from 'yup'
 export interface DiscountOrGiftFormProps {}
 
 export function DiscountOrGiftForm(props: DiscountOrGiftFormProps) {
-	const schema = yup.object().shape({
-		discountOrGift: yup.string().required('Xin mời nhập mã giảm giá/ quà tặng'),
-	})
-
 	const { handleSubmit, control } = useForm({
 		defaultValues: { discountOrGift: '' },
-		resolver: yupResolver(schema),
 	})
 
 	const handleFormSubmit = ({ discountOrGift }: { discountOrGift: string }) => {

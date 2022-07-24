@@ -10,7 +10,7 @@ export interface AuthPayload {
 export interface AuthResponse {
 	message?: string
 	accessToken: string
-	refreshToken: string
+	refreshToken?: string
 
 	user: User
 }

@@ -1,7 +1,7 @@
 import authApi from '@/api-client/authApi'
 import { useAppDispatch } from '@/app/hooks'
 import { AuthPayload } from '@/models'
-import { handleErrorMessage, setCookie } from '@/utils'
+import { handleErrorMessage, setCookie, setFirstLogin } from '@/utils'
 import { toast } from 'react-toastify'
 import { authActions } from '../../authSlice'
 import LoginForm from '../LoginForm'
@@ -15,15 +15,15 @@ export function Login({ onClose }: LoginProps) {
 
 	const handleSubmit = async (formValues: AuthPayload) => {
 		try {
-			const res = await authApi.login(formValues)
+			const authRes = await authApi.login(formValues)
 
 			onClose()
 
-			setCookie('refreshToken', res.refreshToken)
+			setCookie('refreshToken', authRes.refreshToken)
 
-			localStorage.setItem('status', JSON.stringify({ firstLogin: true }))
+			setFirstLogin()
 
-			dispatch(authActions.setUser({ user: res.user, accessToken: res.accessToken }))
+			dispatch(authActions.setUser({ user: authRes.user, accessToken: authRes.accessToken }))
 		} catch (error) {
 			toast.error(handleErrorMessage(error))
 		}
