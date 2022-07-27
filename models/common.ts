@@ -15,7 +15,10 @@ export interface LayoutProps {
 	[key: string]: any
 }
 
-export interface ListParams {}
+export interface DataResponse<T> {
+	message: 'string'
+	data: T
+}
 
 export type NextPageWithLayout = NextPage & {
 	Layout?: (props: LayoutProps) => ReactElement

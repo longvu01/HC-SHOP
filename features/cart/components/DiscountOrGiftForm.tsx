@@ -28,7 +28,7 @@ export function DiscountOrGiftForm(props: DiscountOrGiftFormProps) {
 					type="submit"
 					variant="contained"
 					color="primary"
-					sx={{ whiteSpace: 'nowrap', height: '100%', mt: 1, textTransform: 'unset' }}
+					sx={{ whiteSpace: 'nowrap', height: '100%', mt: 1 }}
 				>
 					Áp dụng
 				</Button>

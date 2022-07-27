@@ -1,29 +1,21 @@
 import Head from 'next/head'
 
-export interface SeoData {
+export interface SeoProps {
 	title?: string
 	description?: string
 	url?: string
 	thumbnailUrl?: string
 }
 
-export interface SeoProps {
-	data?: SeoData
-}
-
-const initData = {
-	title: 'HC-SHOP',
-	description: 'Cloned from hacom.vn',
-	url: '',
-	thumbnailUrl: '',
-}
-
-export function Seo({ data = initData }: SeoProps) {
-	const { title, description, url, thumbnailUrl } = data
-
+export function Seo({
+	title = 'HC-SHOP',
+	description = 'Cloned from hacom.vn',
+	url = '',
+	thumbnailUrl = '',
+}: SeoProps) {
 	return (
 		<Head>
-			<title>HC-SHOP</title>
+			<title>{title}</title>
 			<meta name="title" content={title} />
 			<meta name="description" content={description} />
 

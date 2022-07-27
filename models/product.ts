@@ -1,3 +1,5 @@
+import { Image } from './image'
+
 export interface Product {
 	_id?: any
 	title: string
@@ -20,10 +22,8 @@ export interface Product {
 	//
 	inStock: number
 	sold: number
-	images?: Array<{ public_id: string; url: string }>
+	images?: Image[]
 }
-
-export interface ProductPayload {}
 
 export interface ProductResponse {
 	status: 'success' | 'failed'

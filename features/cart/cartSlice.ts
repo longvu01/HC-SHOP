@@ -4,7 +4,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface CartItemSlice extends Product {
 	quantity: number
-	isActive: boolean
+	isActive?: boolean
 }
 
 export interface CartState {

@@ -23,7 +23,7 @@ export function Register({ onClose }: RegisterProps) {
 
 			setFirstLogin()
 
-			dispatch(authActions.setUser({ user: res.user, accessToken: res.accessToken }))
+			dispatch(authActions.setUserAuth({ user: res.user, accessToken: res.accessToken }))
 			toast.success(res.message)
 		} catch (error) {
 			toast.error(handleErrorMessage(error))

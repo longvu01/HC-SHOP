@@ -36,7 +36,7 @@ export default function RegisterForm({ onSubmit }: RegisterFormProps) {
       .oneOf([yup.ref('password')], 'Mật khẩu nhập lại chưa khớp.'),
   });
 
-  const initialValues: AuthPayload = {
+  const defaultValues: AuthPayload = {
     fullName: '',
     email: '',
     password: '',
@@ -48,7 +48,7 @@ export default function RegisterForm({ onSubmit }: RegisterFormProps) {
     control,
     formState: { isSubmitting },
   } = useForm({
-    defaultValues: initialValues,
+    defaultValues,
     resolver: yupResolver(schema),
   });
 

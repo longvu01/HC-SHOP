@@ -7,7 +7,7 @@ import dbConnect from './mongodb'
 export const validationAuthToken = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-): Promise<any> => {
+): Promise<any | { userId: string }> => {
 	try {
 		await dbConnect()
 

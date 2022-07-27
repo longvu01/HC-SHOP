@@ -45,7 +45,7 @@ export function PaypalButtonPurchase({ total, address, phoneNumber }: PaypalButt
 						],
 					})
 				}}
-				onApprove={(data, actions) => {
+				onApprove={(data, actions): any => {
 					return actions.order
 						?.capture()
 						.then(async () => {

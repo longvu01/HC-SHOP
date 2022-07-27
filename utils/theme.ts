@@ -47,6 +47,13 @@ export let theme = createTheme({
 				},
 			},
 		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					textTransform: 'unset',
+				},
+			},
+		},
 	},
 })
 

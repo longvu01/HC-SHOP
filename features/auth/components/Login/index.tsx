@@ -23,7 +23,7 @@ export function Login({ onClose }: LoginProps) {
 
 			setFirstLogin()
 
-			dispatch(authActions.setUser({ user: authRes.user, accessToken: authRes.accessToken }))
+			dispatch(authActions.setUserAuth({ user: authRes.user, accessToken: authRes.accessToken }))
 		} catch (error) {
 			toast.error(handleErrorMessage(error))
 		}

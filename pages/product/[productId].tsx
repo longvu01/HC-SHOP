@@ -60,14 +60,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
 	return (
 		<Box pb={{ xs: 7, md: 9 }}>
-			<Seo
-				data={{
-					title: product.title,
-					description: product.description,
-					url: '',
-					thumbnailUrl: '',
-				}}
-			/>
+			<Seo title={product.title} description={product.description} />
 
 			<Container maxWidth="xl">
 				<PageBreadCrumbs data={breadCrumbsData} />
@@ -75,7 +68,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 				<Paper sx={{ p: 2 }}>
 					<Stack direction="row" spacing={1} minHeight={500}>
 						<Box width={400}>
-							<ProductSlider images={product.images} />
+							<ProductSlider images={product.images || []} />
 						</Box>
 
 						{/* Right */}
@@ -183,6 +176,13 @@ export const getStaticProps: GetStaticProps<ProductDetailProps> = async (
 	if (!product) return { notFound: true }
 
 	return {
-		props: { product: { ...product._doc, _id: product._id.toString() } },
+		props: {
+			product: {
+				...product._doc,
+				// use null to omit unneeded updatedAt
+				updatedAt: null,
+				_id: product._id.toString(),
+			},
+		},
 	}
 }

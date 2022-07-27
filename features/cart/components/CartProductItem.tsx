@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/app/hooks'
-import { cartActions, CartItem } from '@/features/cart/cartSlice'
+import { cartActions, CartItemSlice } from '@/features/cart/cartSlice'
 import { formatCurrency } from '@/utils'
 import DeleteIcon from '@mui/icons-material/Delete'
 import {
@@ -19,7 +19,7 @@ import { ChangeEvent } from 'react'
 import { CartQuantityForm } from './CartQuantityForm'
 
 export interface CartProductItemProps {
-	cartItem: CartItem
+	cartItem: CartItemSlice
 	onOpenRemoveDialog: () => void
 	setIdToRemove: (productId: string) => void
 }
@@ -83,7 +83,7 @@ export function CartProductItem({
 							<Box sx={{ width: 70, height: 70, ml: '0px !important', cursor: 'pointer' }}>
 								{/* TODO: Fix src after add new data to db */}
 								<Image
-									src={cartItem.images?.[0].url as string}
+									src={cartItem.images?.[0].url || ''}
 									alt={cartItem.title}
 									layout="responsive"
 									width="100%"

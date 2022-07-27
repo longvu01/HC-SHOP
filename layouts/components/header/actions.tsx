@@ -34,7 +34,6 @@ import {
 	Typography,
 } from '@mui/material'
 import Tippy from '@tippyjs/react/headless'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -146,7 +145,6 @@ export default function Actions() {
 														sx={{
 															bgcolor: '#fdd835',
 															color: '#333',
-															textTransform: 'unset',
 															'&:hover': {
 																bgcolor: '#fdd835',
 															},
@@ -160,7 +158,6 @@ export default function Actions() {
 														sx={{
 															bgcolor: '#fdd835',
 															color: '#333',
-															textTransform: 'unset',
 															'&:hover': {
 																bgcolor: '#fdd835',
 															},
@@ -174,8 +171,12 @@ export default function Actions() {
 
 											{isLoggedIn && (
 												<>
-													<Button>Tài khoản của tôi</Button>
-													<Button onClick={handleLogoutClick}>Đăng xuất</Button>
+													<Link href="/profile" passHref>
+														<Button sx={{ justifyContent: 'flex-start' }}>Tài khoản của tôi</Button>
+													</Link>
+													<Button sx={{ justifyContent: 'flex-start' }} onClick={handleLogoutClick}>
+														Đăng xuất
+													</Button>
 												</>
 											)}
 										</Stack>
@@ -191,14 +192,14 @@ export default function Actions() {
 
 									<Stack direction="column" alignItems="flex-start">
 										<Button
-											sx={{ color: '#fff', textTransform: 'unset', lineHeight: '14px' }}
+											sx={{ color: '#fff', lineHeight: '14px' }}
 											size="small"
 											onClick={handleRegisterClick}
 										>
 											Đăng ký
 										</Button>
 										<Button
-											sx={{ color: '#fff', textTransform: 'unset', lineHeight: '14px' }}
+											sx={{ color: '#fff', lineHeight: '14px' }}
 											size="small"
 											onClick={handleLoginClick}
 										>
@@ -262,7 +263,6 @@ export default function Actions() {
 											variant="contained"
 											size="small"
 											sx={{
-												textTransform: 'unset',
 												px: 4,
 												mt: 1.5,
 												bgcolor: '#f78d1c',

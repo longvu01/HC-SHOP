@@ -30,9 +30,9 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		// Check user exists && password match
 		const user = await UserModel.findOne({ email })
-		const isMatch = bcrypt.compareSync(password, user.password)
+		const isMatch = bcrypt.compareSync(password, user?.password || '')
 		if (!user || !isMatch)
-			return res.status(400).json({ message: 'Tài khoản hoặc mật khẩu không đúng!' })
+			return res.status(400).json({ message: 'Tài khoản hoặc mật khẩu không chính xác!' })
 
 		const userId = user._id.toString()
 

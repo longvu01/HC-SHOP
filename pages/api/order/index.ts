@@ -58,10 +58,9 @@ const makeOrder = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json({
 			message: 'Thanh toán thành công. Chúng tôi sẽ liên hệ để xác nhận đơn hàng',
-			newOrder,
+			data: newOrder,
 		})
 	} catch (error) {
-		console.log(error)
 		res.status(500).json(handleErrorJSON(error))
 	}
 }

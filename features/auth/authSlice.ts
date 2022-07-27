@@ -1,5 +1,5 @@
 import { RootState } from '@/app/store'
-import { AuthResponse } from '@/models'
+import { AuthResponse, User } from '@/models'
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: Partial<AuthResponse> & { isRequireLogin: boolean; accessToken: string } = {
@@ -7,7 +7,9 @@ const initialState: Partial<AuthResponse> & { isRequireLogin: boolean; accessTok
 		_id: '',
 		fullName: '',
 		email: '',
-		password: '',
+		phoneNumber: '',
+		gender: 'male',
+		address: '',
 		role: '',
 		root: false,
 		avatar: '',
@@ -20,9 +22,13 @@ const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		setUser(state, action: PayloadAction<AuthResponse>) {
+		setUserAuth(state, action: PayloadAction<AuthResponse>) {
 			state.user = action.payload.user
 			state.accessToken = action.payload.accessToken
+		},
+
+		setUserData(state, action: PayloadAction<User>) {
+			state.user = { ...state.user, ...action.payload }
 		},
 
 		setRequireLogin(state) {

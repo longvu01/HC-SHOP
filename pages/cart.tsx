@@ -113,7 +113,6 @@ const CartPage = () => {
 								<Button
 									variant="contained"
 									sx={{
-										textTransform: 'unset',
 										px: 4,
 										bgcolor: '#f78d1c',
 										'&:hover': {
@@ -157,10 +156,7 @@ const CartPage = () => {
 									<Typography variant="body1" fontWeight="bold">
 										Giao tới
 									</Typography>
-									<Button
-										sx={{ textTransform: 'unset', '&:hover': { bgcolor: 'unset' } }}
-										onClick={handleToggleOpenInfo}
-									>
+									<Button sx={{ '&:hover': { bgcolor: 'unset' } }} onClick={handleToggleOpenInfo}>
 										Thêm thông tin
 									</Button>
 								</Stack>
@@ -228,12 +224,7 @@ const CartPage = () => {
 								<Divider />
 							</Paper>
 							{!isPurchaseMode && (
-								<Button
-									variant="contained"
-									fullWidth
-									sx={{ textTransform: 'unset' }}
-									onClick={handlePurchase}
-								>
+								<Button variant="contained" fullWidth onClick={handlePurchase}>
 									Tiến hành đặt hàng
 								</Button>
 							)}

@@ -13,7 +13,7 @@ export default function PageBreadCrumbs({ data }: BreadCrumbsProps) {
 	))
 
 	return (
-		<Breadcrumbs separator="›" aria-label="breadcrumb">
+		<Breadcrumbs separator="›" aria-label="breadcrumb" sx={{ mt: 2.5, mb: 1.5 }}>
 			{breadcrumbs}
 		</Breadcrumbs>
 	)
